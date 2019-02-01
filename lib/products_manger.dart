@@ -13,65 +13,19 @@
 import 'package:flutter/material.dart' ;
 
 import './products.dart';
-import './product_control.dart';
 
-class ProductsManger extends StatefulWidget {
+class ProductsManger extends StatelessWidget {
 
-  final Map <String ,String>  startingProduct;
-  ProductsManger({this.startingProduct});
-    @override
-  State<StatefulWidget> createState() {
-    return _ProductsManger();
-  }
-}
+  final List <Map<String , dynamic>> products;
 
-
-class _ProductsManger extends State<ProductsManger> {
-
-  List<Map<String ,String> >  _products = [];
-
-  @override
-
-  // i used initstate to check 
-    void initState() {
-
-      if (widget.startingProduct != null) {
-         _products.add(widget.startingProduct);
-      }
-      super.initState();
-    }
-
-    // i used didUpdate to check 
-
-    @override
-      void didUpdateWidget(ProductsManger oldWidget) {
-        super.didUpdateWidget(oldWidget);
-      }
-
-// this method to add product to the cards 
-      void _addProduct(Map<String ,String> product) {
-        setState(() {
-                  _products.add(product);
-                });
-        print(_products);
-      }
-
-// here this method to delete the product that i'm on it by index so if i use product instaed of index it will delete every thing but index delete what i'm on it 
-      void _deleteProduct (int index) {
-        setState(() {
-                  _products.removeAt(index);
-                });
-      }
+  ProductsManger(this.products ) ;
 
   @override
     Widget build(BuildContext context) {
       return Column(
           children: [
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: ProductControl(_addProduct),
-            ),
-            Expanded(child:Products(_products, deleteProduct: _deleteProduct))
+      
+            Expanded(child:Products(products))
           ],
         );
     }

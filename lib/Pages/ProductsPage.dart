@@ -4,6 +4,11 @@ import '../products_manger.dart';
 import './Products_Admin.dart';
 
 class ProductsPage extends StatelessWidget {
+
+  final List <Map<String , dynamic >> products;
+
+  ProductsPage(this.products );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +29,7 @@ class ProductsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Abdullah App'),
       ),
-      body: ProductsManger(),
+      body: ProductsManger(products),
     );
   }
 }

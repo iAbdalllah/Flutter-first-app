@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
-import './ProductsPage.dart';
 import './product_create.dart';
 import './product_list.dart';
 
 class ProductsAdmin extends StatelessWidget {
+  final Function addProduct;
+  final Function deleteProduct;
+
+  ProductsAdmin(this.addProduct,this.deleteProduct);
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -20,10 +24,7 @@ class ProductsAdmin extends StatelessWidget {
                 title: Text('All Products'),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => ProductsPage()));
+                  Navigator.pushReplacementNamed(context, '/products');
                 },
               )
             ],
@@ -45,7 +46,7 @@ class ProductsAdmin extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: <Widget>[ProductsListPage(), ProductCreatePage()],
+          children: <Widget>[ProductsListPage(), ProductCreatePage(addProduct)],
         ),
       ),
     );
