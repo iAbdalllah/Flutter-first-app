@@ -29,6 +29,12 @@ class _Myapp extends State<MyApp> {
     print(_products);
   }
 
+  void _updateProduct(int index , Map<String , dynamic > product) {
+
+    _products[index] = product ;
+
+  }
+
 // here this method to delete the product that i'm on it by index so if i use product instaed of index it will delete every thing but index delete what i'm on it
   void _deleteProduct(int index) {
     setState(() {
@@ -39,13 +45,17 @@ class _Myapp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.blueGrey),
+      
+      theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+          accentColor: Colors.deepPurpleAccent),
+          
       //home: AuthPage(),
       routes: {
         '/': (BuildContext context) => AuthPage(),
-        '/products': (BuildContext context) =>
-            ProductsPage(_products),
-        '/admin': (BuildContext context) => ProductsAdmin(_addProduct, _deleteProduct),
+        '/products': (BuildContext context) => ProductsPage(_products),
+        '/admin': (BuildContext context) =>
+            ProductsAdmin(_addProduct, _updateProduct ,_deleteProduct, _products),
       },
 
       onGenerateRoute: (RouteSettings settings) {
@@ -60,7 +70,7 @@ class _Myapp extends State<MyApp> {
 
           return MaterialPageRoute<bool>(
             builder: (BuildContext context) => ProductPage(
-                _products[index]['title'], _products[index]['image']),
+                _products[index]['title'], _products[index]['image'] , _products[index]['price'],_products[index]['description']),
           );
         }
 
@@ -69,8 +79,7 @@ class _Myapp extends State<MyApp> {
 
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-            builder: (BuildContext context) =>
-                ProductsPage(_products));
+            builder: (BuildContext context) => ProductsPage(_products));
       },
     );
   }

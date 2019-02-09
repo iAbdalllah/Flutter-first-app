@@ -1,9 +1,70 @@
 import 'package:flutter/material.dart';
 
+// import '../widgets/Card/CardUI.dart';
+import './product_edit.dart';
+
 class ProductsListPage extends StatelessWidget {
+  final List<Map<String, dynamic>> products;
+  final Function updateProduct;
+  final Function deleteProduct;
+
+  ProductsListPage(this.products, this.updateProduct , this.deleteProduct);
+
+
+  Widget _iconButton(BuildContext context , index) {
+    return IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return ProductEditPage(
+                            product: products[index],
+                            updateProduct: updateProduct,
+                            productIndex: index,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+  }
+
   @override
   Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        return Dismissible(
+          key: Key(products[index]['title']),
+          onDismissed: (DismissDirection direction){
 
-    return Center(child: Text('Here you can see all the products '),);
+            if (direction == DismissDirection.startToEnd) {
+
+              deleteProduct(index);
+
+            } 
+
+          },
+          background: Container(color: Colors.red),
+
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage(
+                    products[index]['image'],
+                  ),
+                ),
+                title: Text(products[index]['title']),
+                subtitle: Text(products[index]['price'].toString()),
+                trailing: _iconButton(context , index),
+              ),
+              Divider()
+            ],
+          ),
+        );
+      },
+      itemCount: products.length,
+    );
   }
 }

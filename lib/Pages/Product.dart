@@ -2,37 +2,53 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../widgets/Products/Price_tag.dart';
+import '../widgets/Ui_elements/title_default.dart';
+
 class ProductPage extends StatelessWidget {
   final String title;
   final String imageUrl;
-  ProductPage(this.title, this.imageUrl);
+  final double price;
+  final String description;
+  ProductPage(this.title, this.imageUrl, this.price, this.description);
 
-  _showWarningDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('حذف ملعب '),
-            content: Text('هل أنت متأكد من انك تريد الحذف'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("لا"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                child: Text('نعم'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context, true);
-                },
-              )
-            ],
-          );
-        });
+  // _showWarningDialog(BuildContext context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text('حذف ملعب '),
+  //           content: Text('هل أنت متأكد من انك تريد الحذف'),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: Text("لا"),
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //             ),
+  //             FlatButton(
+  //               child: Text('نعم'),
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //                 Navigator.pop(context, true);
+  //               },
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
+
+  Widget _buildRow(){
+    return Row(children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(25.0),
+                  child: Text(description,
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      )),
+                ),
+              ]);
   }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -49,14 +65,17 @@ class ProductPage extends StatelessWidget {
               Image.asset(imageUrl),
               Container(
                 padding: EdgeInsets.all(10.0),
-                child: Text(title),
+                child: TitleDefault(title) ,
               ),
-              Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: RaisedButton(
-                      child: Text('حذف'),
-                      onPressed:() => _showWarningDialog(context), // we use here bol value to see if the pop has true value then delete the card
-                      ))
+              _buildRow(),
+              PriceTag(price.toString()),
+              SizedBox(
+                height: 40,
+              ),
+              RaisedButton(
+                child: Text('chose this product'),
+                onPressed: () {},
+              )
             ],
           )),
     );
